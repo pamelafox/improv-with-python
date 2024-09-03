@@ -44,7 +44,7 @@ storyspine = [
     "The moral of the story is: "
 ]
 storyspine_index = 0
-players = ["user", "model"]
+players = ["user", "meta-llama-3-8b-instruct", "gpt-4o"]
 current_player = players[0]
 
 messages = [
@@ -56,31 +56,28 @@ messages = [
 ]
 
 while True:
-    print("Current player: ", current_player)
+    print("\nCurrent player: ", current_player)
+
     if storyspine_index == len(storyspine):
         print("The story is complete!")
         break
+
+    next_prompt = storyspine[storyspine_index]
     if current_player == "user":
-        next_prompt = storyspine[storyspine_index]
-        final_word = next_prompt.split()[-1]
         storyline = input(f"\n{next_prompt}")
         messages.append({"role": "user", "content": f"{next_prompt} {storyline}"})
-        current_player = players[1]
-        storyspine_index += 1
     else:
-        next_prompt = storyspine[storyspine_index]
-        final_word = next_prompt.split()[-1]
         messages.append({"role": "user", "content": f"Complete the sentence that starts with '{next_prompt}'. Include the full sentence in the response. Only respond with a single sentence."})
-
         response = client.chat.completions.create(
-            model=MODEL_NAME,
+            model=current_player,
             messages=messages,
             temperature=0.3,
             max_tokens=100
         )
         bot_response = response.choices[0].message.content
-        print(bot_response)
         messages.append({"role": "assistant", "content": bot_response})
-        storyspine_index += 1
-        current_player = players[0]
-
+        print(bot_response)
+        
+    # Switch players
+    storyspine_index += 1
+    current_player = players[(players.index(current_player) + 1) % len(players)]
