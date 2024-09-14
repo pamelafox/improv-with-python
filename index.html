@@ -1,0 +1,272 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<title>Playing improv ...with Python?</title>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/dist/reset.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/dist/reveal.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/dist/theme/simple.css" id="theme">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Roboto:300,400,500|Work+Sans:400,700">
+        <link rel="stylesheet" href="../static/a11y-dark.min.css">
+		<link rel="stylesheet" href="../static/slides.css">
+	</head>
+    <body>
+    <div class="reveal">
+        <div class="slides">
+
+            <section class="heading-only" style="padding-top:5%">
+                <h1 style="font-size:2.5em;">
+                    Playing improv<br>
+                    ...with Python?
+                </h1>
+
+                <h2 style="font-size:1.5em;">
+                    <a target="_blank" href="https://pamelafox.github.io/improv-with-python/">
+                        https://pamelafox.github.io/improv-with-python/
+                    </a>
+                </h2>
+
+                <div style="margin-top:40px;">
+                    Pamela Fox, Python Cloud Advocate at Microsoft<br>
+                    <a target="_blank" href="https://github.com/pamelafox">@pamelafox</a>, <a target="_blank" href="https://www.pamelafox.org/">pamelafox.org</a>
+                </div>
+                <div class="no-print" style="text-align: left; margin-top: 100px; font-size: 70%; display:none;">
+                    Tips for navigating the slides:
+                    <ul>
+                        <li>Press O or Escape for overview mode.</li>
+                        <li>Visit <a href="?print-pdf" target="_blank">this link</a> for a nice printable version</li>
+                        <li>Press the copy icon on the upper right of code blocks to copy the code</li>
+                    </ul>
+                </div>
+
+                <aside class="speaker-notes">
+                </aside>
+            </section>
+
+            <section class="heading-only">
+                <h2>Discovering improv</h2>
+            </section>
+
+            <section>
+                <h3>My first improv?</h3>
+
+                <img src="slides_assets/yesand_blogpost.png" alt="screenshot of a blog post about yes,and concept"
+
+                <a href="https://blog.pamelafox.org/2015/04/towards-more-yes-ands-and-less-buts.html">
+                    https://blog.pamelafox.org/2015/04/towards-more-yes-ands-and-less-buts.html
+                </a>
+            </section>
+
+            <section>
+                <h3>Reading about Improv</h3>
+
+                <img src="impro_book_cover.jpg" alt="Cover of Impro book" style="float:right">
+                <p>
+                    <a href="https://www.goodreads.com/book/show/19244102-impro" target="_blank">
+                        Impro: Improvisation and the Theatre
+                    </a><br>
+                    Keith Johnstone
+                </p>
+
+                <img src="slides_assets/impro_book_goodreads.png" alt="My GoodReads rating of Impro from 2015">
+            </section>
+
+            <section>
+                <h3>So Many Improv Classes</h3>
+
+                <ul>
+                    <li><a target="_blank" href="https://leela-sf.com/">Leela SF: 901 Mission Street</a>
+                    <li><a target="_blank" href="https://www.act-sf.org/training/studio-a-c-t">Studio ACT: 1127 Market Street</a>
+                    <li><a target="_blank" href="https://endgamesimprov.com/classes/">Endgames Improv: 2965 Mission Street, SF</a>
+                    <li><a target="_blank" href="https://www.berkeleyrep.org/school-of-theatre/students/classes/">Berkeley Rep: 2071 Addison St, Berkeley</a>
+                </ul>
+
+            </section>
+
+            <section class="heading-only">
+                <h2>Spreading improv</h2>
+            </section>
+
+            <section>
+                <h3>Running an improv club</h3>
+
+                <img src="slides_assets/improv_club.png" alt="Three people in an improv scene">
+            </section>
+
+            <section>
+                <h3>Bringing improv to work</h3>
+
+                <p>Our afternoon "shake-off" at Woebot:</p>
+                <img src="slides_assets/improv_woebot.png" alt="Photo from article of improv game at Woebot">
+
+                <a href="https://www.latimes.com/business/technology/la-fi-tn-woebot-20170823-htmlstory.html" target="_blank">
+                    https://www.latimes.com/business/technology/la-fi-tn-woebot-20170823-htmlstory.html
+                </a>
+            </section>
+
+
+            <section>
+                <h3>Laser cutting for improv</h3>
+
+                <img src="slides_assets/improv_holder1.jpg" alt="Laser-cut wooden holder of improv game name slips"/>
+
+                <img src="slides_assets/improv_holder2.jpg" alt="Laser-cut wooden holder of improv game name slips"/>
+
+                <img src="slides_assets/improv_holder3.jpg" alt="Laser-cut wooden holder of improv game name slips"/>
+
+            </section>
+
+            <section>
+                <h3>Documenting improv</h3>
+
+                improv lists
+            </section>
+
+            <section class="heading-only">
+                <h2>Improv games</h2>
+
+            </section>
+
+            <section>
+                <h3>Flavors of improv games</h3>
+
+            </section>
+
+            <section>
+                <h3>Let's play an improv game!</h3>
+            </section>
+
+            <section class="heading-only">
+                <h2>Playing improv with Python</h2>
+            </section>
+
+            <section>
+                <h3>Can we play improv games with a computer?</h3>
+
+                <p>We need the computer to generate a creative human-like response.</p>
+
+                <p>Possible tools:</p>
+
+                <ul>
+                    <li>Hidden markov models
+                    <li class="fragment">Custom trained ML models
+                    <li class="fragment">Large/Small Language Models
+                </ul>
+            </section>
+
+            <section>
+                <h3>Language Models</h3>
+
+                <p>Let's try these models...</p>
+
+                <table style="margin:0; font-size:1.2em;">
+                    <thead>
+                        <tr>
+                            <th>Company</th>
+                            <th>Model</th>
+                            <th>Parameters</th>
+                            <th>Host
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>OpenAI
+                            <td>gpt-4o-mini
+                            <td>??
+                            <td>OpenAI.com/Azure/GitHub Models
+                        <tr>
+                            <td>Meta
+                            <td>Llama3.1
+                            <td>8B, 70B, 405B
+                            <td>Azure/GitHub Models/Ollama
+                        <tr>
+                            <td>Microsoft
+                            <td>Phi3
+                            <td>3.8B, 14B
+                            <td>Azure/GitHub Models/Ollama
+                        <tr>
+                            <td>Mistal
+                            <td>Mistral small
+                            <td>??
+                            <td>Azure/GitHub Models/Ollama
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h3>Ollama</h3>
+
+                <p><a target="_blank" href="https://ollama.com/">Ollama</a>
+                    is a tool for easily running local LLMs on your computer.
+                </p>
+
+                <img src="screenshot_ollama.png" alt="Screenshot of Ollama running a local LLM that answers a question" style="border:1px solid #ccc; width:800px;">
+
+                <p>You can also run it from GitHub Codespaces:
+                    <a target="_blank" href="https://github.com/pamelafox/ollama-python-playground">🔗 aka.ms/ollama-python: Ollama Python Playground</a>
+                </p>
+            </section>
+
+            <section>
+                <h3>GitHub Models</h3>
+
+                <p>GitHub models are freely available models with very low rate limits,
+                    designed for easy experimentation with no signup.</p>
+
+                <p>☹️ Currently waitlist only. Sign up now!</p>
+
+                <img src="slides_assets/githubmodels.png" alt="Screenshot of GitHub models listing"/>
+
+            </section>
+
+            <section>
+                <h3>Improv with chat completion models</h3>
+
+                <p>General approach:</p>
+
+                <pre><code data-trim data-noescape class="python">
+                messages = [
+                    {"role": "system",
+                     "content": "You are playing an improv game to tell a story."
+                    },
+                    {"role": "user",
+                     "content": "Once upon a time, unicorns and ponies were friends."
+                    },
+                    {"role": "user",
+                     "content": "Generate the next sentence in the story:"
+                    }
+                ]
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>Improving output: Few shot examples</h3>
+            </section>
+
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlightjs-badge@0.1.9/highlightjs-badge.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js-menu@2.1.0/menu.js"></script>
+    <script>
+        const srcUrlPrefix = "https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/";
+        Reveal.initialize({
+            hash: true,
+            center: false,
+            slideNumber: true,
+            showNotes: false,
+            margin: 0.1,
+            preloadIframes: true,
+            plugins: [ RevealHighlight, RevealMenu ],
+            pdfSeparateFragments: true
+        });
+
+        window.highlightJsBadge();
+
+    </script>
+    </body>
+</html>
