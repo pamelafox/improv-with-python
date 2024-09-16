@@ -1,9 +1,11 @@
-import logging
 import os
 
 import openai
+from rich import print
+from rich.console import Console
 
-logging.basicConfig(level=logging.DEBUG)
+#logging.basicConfig(level=logging.DEBUG)
+console = Console(highlight=False)
 
 # Setup the OpenAI client to use either Ollama or GitHub
 API_HOST = "ollama"
@@ -13,14 +15,14 @@ if API_HOST == "ollama":
         base_url="http://localhost:11434/v1",
         api_key="nokeyneeded",
     )
-    model_names = ["llama3.1:8b"]
+    model_names = ["llama3.1:8b", "phi3:mini"]
 elif API_HOST == "github":
     client = openai.OpenAI(
         base_url="https://models.inference.ai.azure.com",
         api_key=os.getenv("GITHUB_TOKEN")
     )
     model_names = ["meta-llama-3-8b-instruct", "gpt-4o"]
-print(f"Using {API_HOST} hosted model")
+console.print(f"Using {API_HOST} hosted model")
 
 
 storyspine = [
@@ -36,6 +38,8 @@ storyspine = [
 ]
 storyspine_index = 0
 players = ["user"] + model_names
+#players = model_names
+
 current_player = players[0]
 
 messages = [
@@ -51,7 +55,7 @@ while True:
         print("The story is complete!")
         break
 
-    print("\nCurrent player: ", current_player)
+    console.print(f"\n[italic]Current player: [green]{current_player}[green][/italic]")
     next_prompt = storyspine[storyspine_index]
     if current_player == "user":
         storyline = input(f"\n{next_prompt}")
@@ -66,7 +70,7 @@ while True:
         )
         bot_response = response.choices[0].message.content
         messages.append({"role": "assistant", "content": bot_response})
-        print(bot_response)
+        console.print(bot_response)
         
     # Switch players
     storyspine_index += 1

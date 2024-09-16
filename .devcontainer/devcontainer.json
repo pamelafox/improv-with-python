@@ -19,7 +19,8 @@
             "extensions": [
                 "ms-python.python",
                 "charliermarsh.ruff",
-                "ms-python.black-formatter"
+                "ms-python.black-formatter",
+                "humao.rest-client"
             ]
         }
     },
