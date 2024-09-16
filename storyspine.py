@@ -1,35 +1,26 @@
+import logging
 import os
 
-import azure.identity
 import openai
-from dotenv import load_dotenv
 
-# Setup the OpenAI client to use either Azure, OpenAI.com, or Ollama API
-load_dotenv(override=True)
-API_HOST = os.getenv("API_HOST")
+logging.basicConfig(level=logging.DEBUG)
 
-if API_HOST == "azure":
-    token_provider = azure.identity.get_bearer_token_provider(
-        azure.identity.DefaultAzureCredential(), "https://cognitiveservices.azure.com/.default"
-    )
-    client = openai.AzureOpenAI(
-        api_version=os.getenv("AZURE_OPENAI_VERSION"),
-        azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
-        azure_ad_token_provider=token_provider,
-    )
-    MODEL_NAME = os.getenv("AZURE_OPENAI_DEPLOYMENT")
-elif API_HOST == "ollama":
+# Setup the OpenAI client to use either Ollama or GitHub
+API_HOST = "ollama"
+
+if API_HOST == "ollama":
     client = openai.OpenAI(
-        base_url=os.getenv("OLLAMA_ENDPOINT"),
+        base_url="http://localhost:11434/v1",
         api_key="nokeyneeded",
     )
-    MODEL_NAME = os.getenv("OLLAMA_MODEL")
+    model_names = ["llama3.1:8b"]
 elif API_HOST == "github":
-    client = openai.OpenAI(base_url="https://models.inference.ai.azure.com", api_key=os.getenv("GITHUB_TOKEN"))
-    MODEL_NAME = os.getenv("GITHUB_MODEL")
-else:
-    client = openai.OpenAI(api_key=os.getenv("OPENAI_KEY"))
-    MODEL_NAME = os.getenv("OPENAI_MODEL")
+    client = openai.OpenAI(
+        base_url="https://models.inference.ai.azure.com",
+        api_key=os.getenv("GITHUB_TOKEN")
+    )
+    model_names = ["meta-llama-3-8b-instruct", "gpt-4o"]
+print(f"Using {API_HOST} hosted model")
 
 
 storyspine = [
@@ -44,7 +35,7 @@ storyspine = [
     "The moral of the story is: "
 ]
 storyspine_index = 0
-players = ["user", "meta-llama-3-8b-instruct", "gpt-4o"]
+players = ["user"] + model_names
 current_player = players[0]
 
 messages = [
@@ -56,12 +47,11 @@ messages = [
 ]
 
 while True:
-    print("\nCurrent player: ", current_player)
-
     if storyspine_index == len(storyspine):
         print("The story is complete!")
         break
 
+    print("\nCurrent player: ", current_player)
     next_prompt = storyspine[storyspine_index]
     if current_player == "user":
         storyline = input(f"\n{next_prompt}")
