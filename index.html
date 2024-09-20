@@ -23,7 +23,7 @@
 
                 <h2 style="font-size:1.5em;">
                     <a target="_blank" href="https://pamelafox.github.io/improv-with-python/">
-                        https://pamelafox.github.io/improv-with-python/
+                        pamelafox.github.io/improv-with-python/
                     </a>
                 </h2>
 
@@ -42,6 +42,34 @@
 
                 <aside class="speaker-notes">
                 </aside>
+            </section>
+
+            <section>
+                <h3>About me</h3>
+            
+                <img src="photo_pamela_olaf.jpg" alt="Photo of Pamela smiling with an Olaf statue" style="float:right; height:400px; border-radius: 20px;">
+                <p>Python Cloud Advocate at Microsoft</p>
+                <p>Formerly: UC Berkeley, Khan Academy, Woebot, Coursera,Google</p>
+                <br>
+                <p>Find me online at:</p>
+                <table style="width:40%; float: left; font-size:28px;">
+                    <tr>
+                      <td>Mastodon
+                      <td><a target="_blank" href="https://fosstodon.org/@pamelafox">@pamelafox@fosstodon.org</a></td>
+                    </tr>
+                    <tr>
+                        <td>Twitter
+                        <td><a target="_blank" href="https://twitter.com/pamelafox">@pamelafox</a></td>
+                      </tr>
+                    <tr>
+                        <td>GitHub
+                        <td><a target="_blank" href="https://www.github.com/pamelafox">www.github.com/pamelafox</a></td>
+                      </tr>
+                    <tr>
+                        <td>Website
+                        <td><a target="_blank" href="https://www.pamelafox.org">pamelafox.org</a></td>
+                      </tr>
+                  </table>
             </section>
 
             <section class="heading-only">
@@ -238,12 +266,112 @@
                     }
                 ]
                 </code></pre>
+
             </section>
 
             <section>
-                <h3>Improving output: Few shot examples</h3>
+                <h3>Game: Story Spine</h3>
+                <h4>Let's start easy!</h4>
+
+                <p>Rules: <a href="https://github.com/pamelafox/improvlists/blob/master/games/Game%3A-Group-Story-Spine.md" target="_blank">Game: Group Story Spine</a></p>
+                <p>Code: <a href="storyspine.py" target="_blank">storyspine.py</a></p>
+
+                <div class="fragment">
+                    <p>Takeaways:</p>
+                    <ul>
+                        <li>Different models, different results
+                        <li>Some models are very wordy
+                        <li>Some models are very repetitive
+                        <li>It's fun to mix/match models and users
+                    </ul>
             </section>
 
+            <section>
+                <h3>Game: Sentence-at-a-time Story</h3>
+                <h4>AKA: Will the language model ever end the story?</h4>
+
+                <p>Rules: <a href="https://github.com/pamelafox/improvlists/blob/master/games/Game%3A-Sentence-at-a-time-Story.md">Sentence-at-a-time-Story.md</a></p>
+                <p>Code: <a href="sentenceatatime.py">sentenceatatime.py</a></p>
+
+                <div class="fragment">
+                    Yes, but you may need regex...
+                </div>
+            </section>
+
+            <section>
+                <h3>Game: Word-at-a-time Story</h3>
+                <h4>AKA: Why can't language models count?</h4>
+
+                <p>Rules: <a href="https://github.com/pamelafox/improvlists/blob/master/games/Game%3A-Word-at-a-time-Story.md">Word-at-a-time-Story.md</a></p>
+                <p>Code: <a href="wordatatime.py">wordatatime.py</a></p>
+                
+                <div class="fragment">
+                    <p>Approaches:</p>
+                    <ul>
+                        <li>Few shot learning
+                        <li>Post-processing
+                        <li>Fine-tuning
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3>Game: Yes, And Product Factory</h3>
+                <h4>AKA: Can we use props??</h4>
+
+                <p>Rules: <a href="https://github.com/pamelafox/improvlists/blob/master/games/Game%3A-Yes%2C-And...-Product-Factory.md">Yes,And-Product-Factory.md</a></p>
+                <p>Code: <a href="yesandproduct.py">yesandproduct.py</a></p>
+
+                <p class="fragment">
+                Yes, with multimodal models!
+                </p>
+
+            </section>
+
+            <section>
+                <h3>Three Things!</h3>
+                <h4>AKA: Can we make lists??</h4>
+
+                <p>Rules: <a href="https://github.com/pamelafox/improvlists/blob/master/games/Game%3A-3-Things!.md">3-Things!.md</a></p>
+                <p>Code: <a href="threethings_simple.py">threethings_simple.py</a></p>
+
+                <div class="fragment">
+                    <p>Yes, but if we need an exact list, we can use function calling,
+                    as long as the model supports it.<br>
+
+                    <a target="_blank" href="https://ollama.com/blog/tool-support">
+                        Ollama blog post: Tool support for language models
+                    </a>
+                    </p>
+
+
+                    <p>Especially for small language models, we can add few-shot examples to increase likelihood of syntactically correct responses<br>
+                    <a target="_blank" href="https://blog.langchain.dev/few-shot-prompting-to-improve-tool-calling-performance/">
+                        Langchain log post: Few-shot prompting to improve tool calling performance
+                    </a>
+
+                    <p>Other options:
+                    </p>
+                    <ul>
+                        <li><a target="_blank" href="https://pypi.org/project/instructor/">Instructor</a> for structured outputs
+                        <li><a target="_blank" href="https://dottxt-ai.github.io/outlines/welcome/">Outlines</a> for JSON outputs
+                        <li><a target="_blank" href="https://openai.com/index/introducing-structured-outputs-in-the-api/">Structured Outputs from OpenAI</a> (<a target="_blank" href="https://github.com/ollama/ollama/issues/6473">Not yet supported in Ollama</a>)
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3>Lessons learned</h3>
+
+                <ul>
+                    <li class="fragment">Larger models are better at following the rules
+                    <li class="fragment">Doing *anything* with language models teaches you a lot about them
+                    <li class="fragment">Improv with computers is fun!
+                    <li class="fragment">Improv with humans is more fun!
+                </ul>
+
+
+            </section>
 
         </div>
     </div>

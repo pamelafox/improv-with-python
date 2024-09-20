@@ -1,8 +1,6 @@
 import os
-import random
 
 import openai
-from rich import print
 from rich.console import Console
 from rich.style import Style
 
@@ -16,7 +14,7 @@ if API_HOST == "ollama":
         base_url="http://localhost:11434/v1",
         api_key="nokeyneeded",
     )
-    model_names = ["llama3.1:8b", "phi3:mini"]
+    model_names = ["llama3.1:8b", "phi3.5:latest"]
 elif API_HOST == "github":
     client = openai.OpenAI(
         base_url="https://models.inference.ai.azure.com",
@@ -71,18 +69,18 @@ while True:
     console.print(f"\n[italic]Current player: {current_player}[/italic]", style=current_style)
 
     if current_player == "user":
-        word = console.input(f"\nNext word: ")
+        word = console.input("\nNext word: ")
         messages.append({"role": "user", "content": word})
     else:
         if tweet_so_far == "":
-            messages.append({"role": "user", "content": f"Start the tweet by suggesting the first word and ONLY one word."})
+            messages.append({"role": "user", "content": "Start the tweet by suggesting the first word and ONLY one word."})
         else:
             messages.append({"role": "user", "content": f"Suggest the next word in the tweet, and ONLY one word. If the tweet seems over, suggest a hashtag instead. Here is the tweet so far: \"{tweet_so_far}\""})
         response = client.chat.completions.create(
             model=current_player,
             messages=messages,
             temperature=0.3,
-            max_tokens=3
+            max_tokens=5
         )
         bot_response = response.choices[0].message.content
         messages.append({"role": "assistant", "content": bot_response})
@@ -94,6 +92,6 @@ while True:
     # Switch players
     current_player_ind = (current_player_ind + 1) % len(players)
 
-# Print out words space separated wiht [color]word[/color]
+console.print("\n\nThe final tweet: ")
 for word in tweet_words:
     console.print(word["word"], style=Style(color=word["color"]), end=" ")

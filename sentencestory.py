@@ -1,8 +1,6 @@
 import os
-import random
 
 import openai
-from rich import print
 from rich.console import Console
 from rich.style import Style
 
@@ -54,10 +52,12 @@ while True:
     console.print(f"\n[italic]Current player: {current_player}[/italic]", style=current_style)
 
     if current_player == "user":
-        storyline = console.input(f"\nNext sentence: ")
+        storyline = console.input("\nNext sentence: ")
         messages.append({"role": "user", "content": storyline})
     else:
-        messages.append({"role": "user", "content": f"Suggest the next sentence in the story, and only one sentence. Your sentence should start with a capital letter and end with a period. Do not say anything after the period."})
+        messages.append({
+            "role": "user",
+            "content": "Suggest the next sentence in the story, and only one sentence. Your sentence should start with a capital letter and end with a period. Do not say anything after the period."})
         response = client.chat.completions.create(
             model=current_player,
             messages=messages,
