@@ -18,10 +18,7 @@ if API_HOST == "ollama":
     )
     model_names = ["llama3.1:8b", "phi3.5:latest"]
 elif API_HOST == "github":
-    client = openai.OpenAI(
-        base_url="https://models.inference.ai.azure.com",
-        api_key=os.getenv("GITHUB_TOKEN")
-    )
+    client = openai.OpenAI(base_url="https://models.inference.ai.azure.com", api_key=os.getenv("GITHUB_TOKEN"))
     model_names = ["meta-llama-3-8b-instruct", "gpt-4o"]
 console.print(f"Using {API_HOST} hosted model\n")
 
@@ -35,12 +32,13 @@ current_player_ind = 0
 num_rounds = 5
 
 messages = [
-    {"role": "system",
-     "content":
-     """You are playing an Improv game where to goal is to collaboratively describe a new product together.
+    {
+        "role": "system",
+        "content": """You are playing an Improv game with the goal of collaboratively describing a new product together.
     Each round, you will come up with a new sentence describing the product, starting with 'Yes, and...'.
     At the end, you will come up with a great name or the product.
-    """},
+    """,
+    },
     # Few shot examples
     {"role": "user", "content": "Introducing our brand new product, a ball that shoots laser beams!"},
     {"role": "assistant", "content": "Yes, and it also has a built-in camera."},
@@ -57,65 +55,60 @@ def open_image_as_base64(filename):
     image_base64 = base64.b64encode(image_data).decode("utf-8")
     return f"data:image/png;base64,{image_base64}"
 
-PROP_IMAGE = "images/toy_soundloop.png"
+
+PROP_IMAGE = "images/toy_sonicscrewdriver.png"
 PROP_PROMPT = """
 "Pretend you've NEVER EVER seen this object before,
 and describe it as if it is a new invention from a toy company.
 Use only a single sentence to describe it. Do not name it."
 """
 if API_HOST == "ollama":
-    response = ollama.chat(
-        model="llava",
-        messages=[
-            {
-                'role': 'user',
-                'content': PROP_PROMPT,
-                'images':  [PROP_IMAGE]
-            }
-        ]
-    )
-    product_description = response['message']['content']
-else: 
+    response = ollama.chat(model="llava", messages=[{"role": "user", "content": PROP_PROMPT, "images": [PROP_IMAGE]}])
+    product_description = response["message"]["content"]
+else:
     response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
-            {"role": "assistant",
-            "content": "Introducing our brand new product, a ball that shoots laser beams!"},
+            {"role": "assistant", "content": "Introducing our brand new product, a ball that shoots laser beams!"},
             {
-            "role": "user",
-            "content": [
-                {"text": PROP_PROMPT, "type": "text"},
-                {
-                    "image_url": {"url": open_image_as_base64(PROP_IMAGE)},
-                    "type": "image_url",
-                },
-            ],
-        }],
-        temperature=0.7)
+                "role": "user",
+                "content": [
+                    {"text": PROP_PROMPT, "type": "text"},
+                    {
+                        "image_url": {"url": open_image_as_base64(PROP_IMAGE)},
+                        "type": "image_url",
+                    },
+                ],
+            },
+        ],
+        temperature=0.7,
+    )
     product_description = response.choices[0].message.content
 
 messages.append({"role": "user", "content": product_description})
 console.print(f"What are we building? \n {product_description}")
 
 for current_round in range(num_rounds):
-
     current_player = players[current_player_ind]
-    current_player_color = "black" if current_player == "user" else player_colors[
-        current_player_ind]
+    current_player_color = "black" if current_player == "user" else player_colors[current_player_ind]
     current_style = Style(color=current_player_color)
-    console.print(
-        f"\n[italic]Current player: {current_player}[/italic]", style=current_style)
+    console.print(f"\n[italic]Current player: {current_player}[/italic]", style=current_style)
 
     if current_round == num_rounds - 1:
         if current_player == "user":
             product_name = console.input("\nWhat is the name of this product? Be inventive! ")
         else:
-            messages.append({"role": "user", "content": "What is the name of this product? Be inventive! ONLY respond with the name, not the reasoning or anything else."})
+            messages.append(
+                {
+                    "role": "user",
+                    "content": (
+                        "What is the name of this product? Be inventive!"
+                        "ONLY respond with the name, not the reasoning or anything else."
+                    ),
+                }
+            )
             response = client.chat.completions.create(
-                model=model_names[0],
-                messages=messages,
-                temperature=0.7,
-                max_tokens=20
+                model=model_names[0], messages=messages, temperature=0.7, max_tokens=20
             )
             product_name = response.choices[0].message.content
         console.print(f"\n[bold]Product name: {product_name}[/bold]", style=current_style)
@@ -128,10 +121,7 @@ for current_round in range(num_rounds):
         if current_round == num_rounds - 1:
             messages.append({"role": "user", "content": "What is the name of this product? Be inventive!"})
         response = client.chat.completions.create(
-            model=current_player,
-            messages=messages,
-            temperature=0.7,
-            max_tokens=100
+            model=current_player, messages=messages, temperature=0.7, max_tokens=100
         )
         bot_response = response.choices[0].message.content
         messages.append({"role": "assistant", "content": bot_response})
@@ -139,5 +129,3 @@ for current_round in range(num_rounds):
 
     # Switch players
     current_player_ind = (current_player_ind + 1) % len(players)
-
-

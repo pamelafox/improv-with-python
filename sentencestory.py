@@ -14,12 +14,9 @@ if API_HOST == "ollama":
         base_url="http://localhost:11434/v1",
         api_key="nokeyneeded",
     )
-    model_names = ["llama3.1:8b", "phi3:mini"]
+    model_names = ["llama3.1:8b", "phi3.5:latest"]
 elif API_HOST == "github":
-    client = openai.OpenAI(
-        base_url="https://models.inference.ai.azure.com",
-        api_key=os.getenv("GITHUB_TOKEN")
-    )
+    client = openai.OpenAI(base_url="https://models.inference.ai.azure.com", api_key=os.getenv("GITHUB_TOKEN"))
     model_names = ["meta-llama-3-8b-instruct", "gpt-4o"]
 console.print(f"Using {API_HOST} hosted model")
 
@@ -27,25 +24,27 @@ console.print(f"Using {API_HOST} hosted model")
 player_colors = ["green", "blue", "red", "yellow", "magenta", "cyan"]
 players = ["user"] + model_names
 players = model_names
-#random.shuffle(players)
+# random.shuffle(players)
 
 current_player_ind = 0
 
 
 messages = [
-        {"role": "system",
-        "content":
-        """You are playing an Improv game where to goal is to collaboratively write a story together.
+    {
+        "role": "system",
+        "content": """You are playing an Improv game where to goal is to collaboratively write a story together.
         Each round, you will come up with a new sentence to add to the story, and ONLY one sentence.
+        Your sentence should be REALLLY REALLY SHORT!!!!
         If it feels like the story is complete, you can end the game by typing 'The end'.
         Most stories should only be 5-10 sentences long.
-        """}
+        """,
+    }
 ]
 
 while True:
     if messages[-1]["content"].lower().strip(".").endswith("the end"):
         break
-    
+
     current_player = players[current_player_ind]
     current_player_color = "black" if current_player == "user" else player_colors[current_player_ind]
     current_style = Style(color=current_player_color)
@@ -55,18 +54,22 @@ while True:
         storyline = console.input("\nNext sentence: ")
         messages.append({"role": "user", "content": storyline})
     else:
-        messages.append({
-            "role": "user",
-            "content": "Suggest the next sentence in the story, and only one sentence. Your sentence should start with a capital letter and end with a period. Do not say anything after the period."})
+        messages.append(
+            {
+                "role": "user",
+                "content": (
+                    "Suggest the next sentence in the story, and only one sentence. "
+                    "Your sentence should start with a capital letter and end with a period."
+                    "Do not say anything after the period."
+                ),
+            }
+        )
         response = client.chat.completions.create(
-            model=current_player,
-            messages=messages,
-            temperature=0.7,
-            max_tokens=100
+            model=current_player, messages=messages, temperature=0.7, max_tokens=100
         )
         bot_response = response.choices[0].message.content
         messages.append({"role": "assistant", "content": bot_response})
         console.print(bot_response, style=current_style)
-        
+
     # Switch players
     current_player_ind = (current_player_ind + 1) % len(players)
