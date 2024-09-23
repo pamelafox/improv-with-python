@@ -101,15 +101,10 @@ for current_round in range(num_rounds):
             messages.append(
                 {
                     "role": "user",
-                    "content": (
-                        "What is the name of this product? Be inventive!"
-                        "ONLY respond with the name, not the reasoning or anything else."
-                    ),
+                    "content": ("What is the name of this product? Be inventive!" "ONLY respond with the name, not the reasoning or anything else."),
                 }
             )
-            response = client.chat.completions.create(
-                model=model_names[0], messages=messages, temperature=0.7, max_tokens=20
-            )
+            response = client.chat.completions.create(model=model_names[0], messages=messages, temperature=0.7, max_tokens=20)
             product_name = response.choices[0].message.content
         console.print(f"\n[bold]Product name: {product_name}[/bold]", style=current_style)
         break
@@ -120,9 +115,7 @@ for current_round in range(num_rounds):
     else:
         if current_round == num_rounds - 1:
             messages.append({"role": "user", "content": "What is the name of this product? Be inventive!"})
-        response = client.chat.completions.create(
-            model=current_player, messages=messages, temperature=0.7, max_tokens=100
-        )
+        response = client.chat.completions.create(model=current_player, messages=messages, temperature=0.7, max_tokens=100)
         bot_response = response.choices[0].message.content
         messages.append({"role": "assistant", "content": bot_response})
         console.print(bot_response, style=current_style)

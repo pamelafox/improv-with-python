@@ -70,9 +70,7 @@ while True:
         messages.append({"role": "user", "content": word})
     else:
         if tweet_so_far == "":
-            messages.append(
-                {"role": "user", "content": "Start the tweet by suggesting the first word and ONLY one word."}
-            )
+            messages.append({"role": "user", "content": "Start the tweet by suggesting the first word and ONLY one word."})
         else:
             messages.append(
                 {
@@ -84,9 +82,7 @@ while True:
                         """,
                 }
             )
-        response = client.chat.completions.create(
-            model=current_player, messages=messages, temperature=0.3, max_tokens=5
-        )
+        response = client.chat.completions.create(model=current_player, messages=messages, temperature=0.3, max_tokens=5)
         bot_response = response.choices[0].message.content
         messages.append({"role": "assistant", "content": bot_response})
         console.print(bot_response, style=current_style)

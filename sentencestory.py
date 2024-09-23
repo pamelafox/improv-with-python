@@ -58,15 +58,11 @@ while True:
             {
                 "role": "user",
                 "content": (
-                    "Suggest the next sentence in the story, and only one sentence. "
-                    "Your sentence should start with a capital letter and end with a period."
-                    "Do not say anything after the period."
+                    "Suggest the next sentence in the story, and only one sentence. " "Your sentence should start with a capital letter and end with a period." "Do not say anything after the period."
                 ),
             }
         )
-        response = client.chat.completions.create(
-            model=current_player, messages=messages, temperature=0.7, max_tokens=100
-        )
+        response = client.chat.completions.create(model=current_player, messages=messages, temperature=0.7, max_tokens=100)
         bot_response = response.choices[0].message.content
         messages.append({"role": "assistant", "content": bot_response})
         console.print(bot_response, style=current_style)

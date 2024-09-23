@@ -71,15 +71,10 @@ while True:
         messages.append(
             {
                 "role": "user",
-                "content": (
-                    f"Complete the sentence that starts with '{next_prompt}'. "
-                    "Include the full sentence in the response. Only respond with a single sentence."
-                ),
+                "content": f"Complete the sentence that starts with '{next_prompt}'. Include the full sentence in the response. Only respond with a single sentence.",
             }
         )
-        response = client.chat.completions.create(
-            model=current_player, messages=messages, temperature=0.7, max_tokens=100
-        )
+        response = client.chat.completions.create(model=current_player, messages=messages, temperature=0.7, max_tokens=100)
         bot_response = response.choices[0].message.content
         messages.append({"role": "assistant", "content": bot_response})
         console.print(bot_response, style=current_style)
